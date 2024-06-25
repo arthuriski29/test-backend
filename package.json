@@ -1,0 +1,27 @@
+{
+  "name": "test-backend",
+  "version": "1.0.0",
+  "description": "Implementasi Tekonologi Digital, Backend Test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint:fix": "eslint --fix index.js src/**/*.js",
+    "lint": "eslint index.js src/**/*.js"
+  },
+  "keywords": [],
+  "author": "fajar",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.5.0",
+    "eslint": "^9.5.0",
+    "globals": "^15.6.0",
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "argon2": "^0.40.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}
