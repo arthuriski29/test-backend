@@ -7,10 +7,11 @@ router.get("/", (req, res) => {
   })
 })
 
-// router.use("/admin", require("./admin/admin.router"))
-// router.use("/auth", require("./auth.router"))
-// router.use("/profile", require("./profile.router"))
-// router.use("/item-list", require("./item/index"))
+// Untuk Semua Endpoint yang diawali -->  /projects
+router.use("/projects", require("./projects.router.js"))
+
+// Untuk Semua Endpoint yang diawali -->  /tasks 
+router.use("/tasks", require("./tasks.router.js"))
 
 
 router.use("*", (req, res) => {
