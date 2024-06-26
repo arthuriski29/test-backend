@@ -1,7 +1,7 @@
 const Projects = require("../models/projects.model")
 const { default: mongoose } = require("mongoose")
-// const ProjectsUpdate = require("../models/projects.model")
 
+// mendapatkan semua project
 exports.getAll = async(req, res) => {
   try {
     const data = await Projects.find()
@@ -20,6 +20,7 @@ exports.getAll = async(req, res) => {
   } 
 }
 
+// mendapatkan 1 project by _id
 exports.getOneById = async(req, res) => {
   try {
     const {id} = req.params
@@ -48,13 +49,13 @@ exports.getOneById = async(req, res) => {
   } 
 }
 
+// membuat project
 exports.createOne = async(req, res) => {
   try {
     const { name, description } = req.body
     if(!name) throw new Error('Name is required')
 
     const data = await Projects.create({name, description})
-    console.log(data.createdAt)
     if(!data){
       res.status(400).json({
         success: false,
@@ -75,6 +76,7 @@ exports.createOne = async(req, res) => {
   } 
 }
 
+// memperbaharui project
 exports.updateOneById = async(req, res) => {
   try {
     const {id} = req.params
@@ -112,6 +114,7 @@ exports.updateOneById = async(req, res) => {
   } 
 }
 
+// menghapus project
 exports.deleteOne = async(req, res) => {
   try {
     const {id} = req.params

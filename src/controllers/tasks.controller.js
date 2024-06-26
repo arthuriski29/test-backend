@@ -1,6 +1,7 @@
 const Tasks = require("../models/tasks.model")
 const { default: mongoose } = require("mongoose")
 
+// mendapatkan semua task berdasarkanr project
 exports.getAll = async(req, res) => {
   try {
     const {projectId} = req.params
@@ -22,34 +23,7 @@ exports.getAll = async(req, res) => {
   } 
 }
 
-// exports.getOneById = async(req, res) => {
-//   try {
-//     const {id} = req.params
-
-//     //Check valid casting parameter sesuai type ObjectId jika mencari id yang tidak ada
-//     if(!mongoose.Types.ObjectId.isValid(id)){
-//       return res.status(404).json({
-//         success: false,
-//         message: `Task with id ${req.params.id} was not found`,
-//       })
-//     }
-
-//     const data = await Tasks.findById(id)
-    
-//     return res.status(200).json({
-//       success: true,
-//       message: `Get One Task Success`,
-//       results: data
-//     })
-//   } catch (err) {
-    
-//     return res.status(400).json({
-//       success: false,
-//       message: `${err}`
-//     })
-//   } 
-// }
-
+// membuat task berdasarkan project
 exports.createOne = async(req, res) => {
   try {
     const {projectId} = req.params
@@ -90,6 +64,7 @@ exports.createOne = async(req, res) => {
   
 }
 
+// memperbaharui task berdasarkan id nya
 exports.updateOneById = async(req, res) => {
   try {
     const {id} = req.params
@@ -129,6 +104,7 @@ exports.updateOneById = async(req, res) => {
   } 
 }
 
+// menghapus task berdasarkan id nya
 exports.deleteOne = async(req, res) => {
   try {
     const {id} = req.params
@@ -164,3 +140,63 @@ exports.deleteOne = async(req, res) => {
 }
 
 
+// Fitur Tambahan
+
+//menandai tugas selesai
+exports.updateOneDone = async(req, res) => {
+  try {
+    const {id} = req.params
+    
+    //Check valid casting parameter sesuai type ObjectId jika mencari id yang tidak ada
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(404).json({
+        success: false,
+        message: `Task with id ${req.params.id} was not found`,
+      })
+    }
+
+    //Update data dengan id yang ditemukan dan beri isFinished = true
+    const updateData = await Tasks.findOneAndUpdate({_id: id}, {isFinished: true}, {
+        new: true,
+        runValidators: true,
+      }).exec()
+    if(!updateData) throw new Error(`Failed to Update data with id: ${id}`) //pesan gagal
+
+    
+    return res.status(200).json({
+      success: true,
+      message: `Update Finished Task Success`,
+      results: updateData
+    })
+
+  } catch (err) {
+    
+    return res.status(400).json({
+      success: false,
+      message: `${err}`
+    })
+  } 
+}
+
+//mendapatkan semua tugas belum selesai per project
+exports.getAllNotFinished = async(req, res) => {
+  try {
+    const {projectId} = req.params
+    console.log('projectId', projectId)
+
+    //mencari task hanya yang belum selesai, dalam sebuah project
+    const data = await Tasks.find({projectId: projectId, isFinished: false})
+    if(!data) throw new Error('Failed to Get All Tasks Unfinished')
+    
+    return res.status(200).json({
+      success: true,
+      message: `Get All Tasks Unfinished Success for project with id ${projectId}`,
+      results: data
+    })
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: `${err}`
+    })
+  } 
+}

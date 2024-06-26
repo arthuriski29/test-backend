@@ -14,6 +14,9 @@ projectsRouter.get("/:id", projectsController.getOneById)
 // Mendapatkan semua tugas untuk sebuah proyek
 projectsRouter.get("/:projectId/tasks", taskController.getAll)
 
+// Mendapatkan semua tugas untuk sebuah proyek
+projectsRouter.get("/:projectId/tasks/not-finished", taskController.getAllNotFinished)
+
 // Membuat data proyek
 projectsRouter.post("/", projectsController.createOne) 
 

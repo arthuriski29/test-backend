@@ -20,9 +20,13 @@ const taskSchema = new Schema({
     type: Date,
     required: true
   },
-  projectId: {
+  projectId: {    // relation ke projects._id
     type: Schema.Types.ObjectId,
     ref: 'Project',
+  },
+  isFinished: {   // fitur task selesai/belum
+    type: Boolean,
+    default: false
   }
 
 }, {timestamps: true})
